@@ -3,7 +3,7 @@
 照着老师给的图片焊接，左手上锡右手上电烙铁，注意不能把锡焊到接地的壳上，否则通电会发生短路。
 二．	接线
 由于材料限制，只能使用母对母杜邦线的接线，但是这种接线方式导致节点接触很不稳定，最好采用公对母杜邦线接线的方式，或者像其他有的小组一样使用面包板。
-![Image text](https://github.com/suzuhara-lulu/Arasaka-Corporation/blob/main/IMG-storage/IMG_20210417_165942.jpg)
+![image](https://github.com/suzuhara-lulu/Arasaka-Corporation/blob/main/IMG-storage/IMG_20210417_165942.jpg)
 三．	烧录代码
 由于对代码的不熟悉，此过程参考了一下其他组的经验。由于示例代码使用的是MCP9701A测温模块，与我们手里的有出入，因此我们对代码稍作修改，然后将连接网络改成了自己的热点名称和密码。
 在下载资源库时，ssd1306wire这个库根本无法找到，我们只能下载包含SSD1306Wire.h的esp8266-oled-ssd1306库代替，代码部分抄录的老师教程中的代码
@@ -378,4 +378,4 @@ void onSleep()
   LoRaNow.send();
 }
 成功连接上wifi，但是进行过程中出现了如下的乱码。
-![Image text](https://github.com/suzuhara-lulu/Arasaka-Corporation/blob/main/IMG-storage/IMG_20210417_165955.jpg)
+![image](https://github.com/suzuhara-lulu/Arasaka-Corporation/blob/main/IMG-storage/IMG_20210417_165955.jpg)
