@@ -6,6 +6,7 @@
 三．	烧录代码
 由于对代码的不熟悉，此过程参考了一下其他组的经验。由于示例代码使用的是MCP9701A测温模块，与我们手里的有出入，因此我们对代码稍作修改，然后将连接网络改成了自己的热点名称和密码。代码如下：
 /*
+1.网关代码
 LoRaNow Simple Gateway with ESP32 setPins
 This code creates a webServer show the Message and use mqtt publish the data.
 created 27 04 2019
@@ -209,4 +210,83 @@ mqttclient.loop();
 // Serial.println(msg);
 // mqttclient.publish("C2TLOutTopic", msg);
 // }
+2.节点代码
+#include <LoRaNow.h>
+
+//vspi for lora radio module
+#define MISO 19
+#define MOSI 23
+#define SCK 18
+#define SS 5
+
+#define DIO0 4
+
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+// GPIO where the DS18B20 is connected to
+const int oneWireBus = 25;     
+
+// Setup a oneWire instance to communicate with any OneWire devices
+OneWire oneWire(oneWireBus);
+
+// Pass our oneWire reference to Dallas Temperature sensor 
+DallasTemperature sensors(&oneWire);
+
+float tmp;
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("LoRaNow Simple Node");
+  sensors.begin();
+
+   LoRaNow.setFrequencyCN(); // Select the frequency 486.5 MHz - Used in China
+  // LoRaNow.setFrequencyEU(); // Select the frequency 868.3 MHz - Used in Europe
+  // LoRaNow.setFrequencyUS(); // Select the frequency 904.1 MHz - Used in USA, Canada and South America
+  // LoRaNow.setFrequencyAU(); // Select the frequency 917.0 MHz - Used in Australia, Brazil and Chile
+
+  // LoRaNow.setFrequency(frequency);
+  // LoRaNow.setSpreadingFactor(sf);
+  // LoRaNow.setPins(ss, dio0);
+
+   LoRaNow.setPinsSPI(SCK, MISO, MOSI, SS, DIO0); // Only works with ESP32
+
+  if (!LoRaNow.begin()) {
+    Serial.println("LoRa init failed. Check your connections.");
+    while (true);
+  }
+
+  LoRaNow.onMessage(onMessage);
+  LoRaNow.onSleep(onSleep);
+  LoRaNow.showStatus(Serial);
+}
+
+void loop() {
+  sensors.requestTemperatures(); 
+  tmp = sensors.getTempCByIndex(0);
+  LoRaNow.loop();
+}
+
+
+void onMessage(uint8_t *buffer, size_t size)
+{
+  Serial.print("Receive Message: ");
+  Serial.write(buffer, size);
+  Serial.println();
+  Serial.println();
+}
+
+void onSleep()
+{
+  Serial.println("Sleep");
+  Serial.println(tmp);
+  delay(5000); // "kind of a sleep"
+  Serial.println("Send Message");
+  LoRaNow.print("LoRaNow Node Message ");
+  //Serial.println("LoRaNow Message sended");
+  LoRaNow.print(millis());
+  LoRaNow.print("-");
+  LoRaNow.print(tmp);
+  LoRaNow.send();
+}
 }
