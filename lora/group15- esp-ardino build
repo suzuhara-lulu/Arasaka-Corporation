@@ -5,8 +5,8 @@
 由于材料限制，只能使用母对母杜邦线的接线，但是这种接线方式导致节点接触很不稳定，最好采用公对母杜邦线接线的方式，或者像其他有的小组一样使用面包板。
 三．	烧录代码
 由于对代码的不熟悉，此过程参考了一下其他组的经验。由于示例代码使用的是MCP9701A测温模块，与我们手里的有出入，因此我们对代码稍作修改，然后将连接网络改成了自己的热点名称和密码。代码如下：
-/*
 1.网关代码
+/*
 LoRaNow Simple Gateway with ESP32 setPins
 This code creates a webServer show the Message and use mqtt publish the data.
 created 27 04 2019
