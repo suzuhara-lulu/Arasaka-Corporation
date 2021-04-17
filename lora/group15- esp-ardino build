@@ -29,7 +29,7 @@ by bloomlj
 #define MOSI 13
 #define SS 15
 #define DIO0 4
-const char *ssid = "道里大呲花";
+const char *ssid = "qwer";
 const char *password = "15941279996";
 const char *mqtt_server = "broker.hivemq.com";
 WebServer server(80);
@@ -210,9 +210,3 @@ mqttclient.loop();
 // mqttclient.publish("C2TLOutTopic", msg);
 // }
 }
-
-在烧录代码的过程中出现了很多问题。
-首先编译失败了很多次，原因是缺少相关库文件。需要安装“DallasTemperature”和“OneWire”支持库。
-其次烧录时发现了接线时的问题，以及母对母接线的弊端。
-最后由于负责这个部分的组员不是很积极，还是由其他组员共同完成，团队效率不高。
-
